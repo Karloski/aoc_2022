@@ -1,6 +1,10 @@
 import { createReadStream } from 'fs';
 import { createInterface } from 'node:readline';
-const reader = createInterface(createReadStream('./input.txt'));
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const reader = createInterface(createReadStream(__dirname + '/input.txt'));
 let max = 0;
 let subtotal = 0;
 reader.on('line', (line) => {
