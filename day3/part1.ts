@@ -21,20 +21,18 @@ reader.on('line', (line) => {
   ]
 
   for (const char of compartments[0]) {
-    if (line.match(new RegExp(`${char}`, 'g')).length > 1) {
-      if (compartments[1].includes(char)) {
-        let priority = char.toLowerCase().charCodeAt(0) - 96
+    if (compartments[1].includes(char)) {
+      let priority = char.toLowerCase().charCodeAt(0) - 96
 
-        if (char.toLowerCase() !== char) {
-          priority += 26
-        }
-
-        sum += priority
-
-        // console.log(`Duplicate ${duplicate} found in both compartments with priority`, priority)
-
-        break
+      if (char.toLowerCase() !== char) {
+        priority += 26
       }
+
+      sum += priority
+
+      // console.log(`Duplicate ${duplicate} found in both compartments with priority`, priority)
+
+      break
     }
   }
 })
