@@ -15,24 +15,22 @@ let sum = 0
 reader.on('line', (line) => {
   // console.log('Checking compartments', line)
 
-  const compartments = [
-    line.substring(0, line.length / 2),
-    line.substring(line.length / 2)
-  ]
+  outer:
+  for (let i = 0; i < line.length / 2; i++) {
+    for (let j = line.length / 2; j < line.length; j++) {
+      if (line[j] === line[i]) {
+        let priority = line[j].toLowerCase().charCodeAt(0) - 96
 
-  for (const char of compartments[0]) {
-    if (compartments[1].includes(char)) {
-      let priority = char.toLowerCase().charCodeAt(0) - 96
+        if (line[j].toLowerCase() !== line[j]) {
+          priority += 26
+        }
 
-      if (char.toLowerCase() !== char) {
-        priority += 26
+        sum += priority
+
+        // console.log(`Duplicate ${duplicate} found in both compartments with priority`, priority)
+
+        break outer
       }
-
-      sum += priority
-
-      // console.log(`Duplicate ${duplicate} found in both compartments with priority`, priority)
-
-      break
     }
   }
 })
