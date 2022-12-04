@@ -11,30 +11,44 @@ const reader = createInterface(createReadStream(__dirname+'/input.txt'))
 const start = Date.now()
 
 let sum = 0
+let lines = [] as Array<string>
 
 reader.on('line', (line) => {
-  // console.log('Checking compartments', line)
+    lines.push(line)
 
-  const compartments = [
-    line.substring(0, line.length / 2),
-    line.substring(line.length / 2)
-  ]
+    if (lines.length % 3 === 0) {
+      const rucksacks = [
+        {}, {}
+      ]
 
-  for (const char of compartments[0]) {
-    if (compartments[1].includes(char)) {
-      let priority = char.toLowerCase().charCodeAt(0) - 96
-
-      if (char.toLowerCase() !== char) {
-        priority += 26
+      for (const char of lines[0]) {
+        if (!(char in rucksacks[0])) {
+          rucksacks[0][char] = true
+        }
       }
 
-      sum += priority
+      for (const char of lines[1]) {
+        if (char in rucksacks[0]) {
+          rucksacks[1][char] = true
+        }
+      }
 
-      // console.log(`Duplicate ${duplicate} found in both compartments with priority`, priority)
+      for (const char of lines[2]) {
+        if (char in rucksacks[0] && char in rucksacks[1]) {
+          let priority = char.toLowerCase().charCodeAt(0) - 96
 
-      break
+          if (char.toLowerCase() !== char) {
+            priority += 26
+          }
+
+          sum += priority
+
+          break
+        }
+      }
+
+      lines = []
     }
-  }
 })
 
 reader.on('close', () => {
