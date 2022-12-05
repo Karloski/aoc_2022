@@ -41,7 +41,7 @@ reader.on('line', (line) => {
 
     console.log('Moving', numbers[0], 'stacks from', numbers[1], 'to', numbers[2])
 
-    stacks[numbers[2] - 1] = stacks[numbers[2] - 1].concat(stacks[numbers[1] - 1].splice(stacks[numbers[1] - 1].length - numbers[0], numbers[0]))
+    stacks[numbers[2] - 1] = stacks[numbers[2] - 1].concat(stacks[numbers[1] - 1].splice(stacks[numbers[1] - 1].length - numbers[0]))
   }
 })
 
