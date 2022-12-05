@@ -37,12 +37,12 @@ reader.on('line', (line) => {
   }
 
   if (line[0] === 'm') {
-    const numbers = line.match(/\d+/g).map(no => parseInt(no))
+    const [amount, from, to] = line.match(/\d+/g).map(no => parseInt(no))
 
-    console.log('Moving', numbers[0], 'stacks from', numbers[1], 'to', numbers[2])
+    console.log('Moving', amount, 'stacks from', from, 'to', to)
 
-    for (let i = 0; i < numbers[0]; i++) {
-      stacks[numbers[2] - 1].push(stacks[numbers[1] - 1].pop())
+    for (let i = 0; i < amount; i++) {
+      stacks[to - 1].push(stacks[from - 1].pop())
     }
   }
 })
