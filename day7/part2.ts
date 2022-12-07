@@ -61,7 +61,13 @@ reader.on('line', (line) => {
 })
 
 reader.on('close', () => {
-  // Root size: console.log(dir.value + dir.prev.value)
+  // while (dir.prev) {
+  //   dir.prev.value += dir.value
+
+  //   dir = dir.prev
+  // }
+
+  // console.log('Root has a size of', dir.value)
 
   console.log(`Smallest directory with size greater than or equal to ${THRESHOLD}`, smallestDir.key, smallestDir.value)
 
