@@ -25,75 +25,60 @@ reader.on('line', (line) => {
   column++
 })
 
-let visible = new Map<number, number>()
+let bestScenicScore = 0
 
 reader.on('close', () => {
   for (let x = 0; x < trees.length; x++) {
-    y:
     for (let y = 0; y < trees[x].length; y++) {
       const height = trees[x][y]
-      const coord = x * trees[x].length + y
-
-      if (x === 0 || x === trees.length - 1 || y === 0 || y === trees.length - 1) {
-        visible.set(coord, height)
-        continue
+      let scores = {
+        right: 0,
+        down: 0,
+        left: 0,
+        up: 0
       }
 
-      let canSee = true
       for (let right = y + 1; right < trees[x].length; right++) {
+        scores.right++
+
         if (trees[x][right] >= height) {
-          canSee = false
           break
         }
       }
 
-      if (canSee) {
-        visible.set(coord, height)
-        continue y
-      }
-
-      canSee = true
       for (let down = x + 1; down < trees.length; down++) {
+        scores.down++
+
         if (trees[down][y] >= height) {
-          canSee = false
           break
         }
       }
 
-      if (canSee) {
-        visible.set(coord, height)
-        continue y
-      }
-
-      canSee = true
       for (let left = y - 1; left >= 0; left--) {
+        scores.left++
+
         if (trees[x][left] >= height) {
-          canSee = false
           break
         }
       }
 
-      if (canSee) {
-        visible.set(coord, height)
-        continue y
-      }
-
-      canSee = true
       for (let up = x - 1; up >= 0; up--) {
+        scores.up++
+
         if (trees[up][y] >= height) {
-          canSee = false
           break
         }
       }
 
-      if (canSee) {
-        visible.set(coord, height)
-        continue y
+      const total = Object.values(scores).reduce((carry, item) => carry *= item, 1)
+
+      if (total > bestScenicScore) {
+        bestScenicScore = total
       }
     }
   }
 
-  console.log('Visible', visible.size)
+  console.log('Best scenic score', bestScenicScore)
 
   console.log('Process took', Date.now() - start, 'ms')
 })
